@@ -1,2 +1,6 @@
 .venv
 data/20230201/publication_posive_set.json
+__pycache__/
+*.pyc
+data/
+.vscode/
