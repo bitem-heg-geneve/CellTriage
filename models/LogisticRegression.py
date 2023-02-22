@@ -62,7 +62,7 @@ class predictors(TransformerMixin):
 
 
 class BagOfWords(object):
-    def __init__(self):
+    def __init__(self, model_path):
         self.X = []
         self.y = []
 
@@ -143,14 +143,9 @@ class BagOfWords(object):
                 )  # min-max
             else:
                 results = preds
-                
-    def evaluate (self, X, y):
-        pass
-    
-    def save(path):
-        pass
-     
-    def load:
+
+    def evaluate(self, X, y):
         pass
 
-                
+    def save(path):
+        pass
