@@ -1,8 +1,6 @@
 import warnings
-from multiprocessing import Pool
 
 import numpy as np
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
 # import scispacy
 import spacy
@@ -10,7 +8,6 @@ import spacy
 # from sklearn.base import TransformerMixin
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import KFold
 from sklearn.pipeline import Pipeline
 import ndjson
 
@@ -59,35 +56,6 @@ class LogReg(BaseModel):
             y_pred = self.pipeline.predict(X)
         return y_pred
 
-    def eval(self, X, y):
-        y_pred = self.predict(X)
-        return self.metrics(y, y_pred)
-
-    def cv(self, X, y, kfold=5, pool=1):
-        X = np.array(X)
-        y = np.array(y).astype(int)
-
-        train_predict_map = []
-        y_val_map = []
-        kf = KFold(kfold, shuffle=True, random_state=self.random_state)
-        for fold_train, fold_val in kf.split(X):
-            train_predict_map.append((X[fold_train], y[fold_train], X[fold_val]))
-            y_val_map.append(y[fold_val])
-
-        with Pool(pool) as p:
-            y_pred_map = p.starmap(
-                self.train_predict,
-                train_predict_map,
-            )
-
-        precision, recall, accuracy, f1 = [], [], [], []
-        for fold in zip(y_pred_map, y_val_map):
-            precision.append(precision_score(fold[0], fold[1]))
-            recall.append(recall_score(fold[0], fold[1]))
-            accuracy.append(accuracy_score(fold[0], fold[1]))
-            f1.append(f1_score(fold[0], fold[1]))
-        return self.metrics_collape(precision, recall, accuracy, f1)
-
     def train_predict(self, X_train, y_train, X_val):
         return LogReg().train(X_train, y_train).predict(X_val)
 
@@ -98,7 +66,7 @@ def test():
 
     from TestData import TestData
 
-    DATA_FP = "data/20230201/test/TestData_100_50.pkl"
+    DATA_FP = "data/test/TestData_100_50.pkl"
     MODEL_FP = "models/test/LogReg_100_50.pkl"
 
     # data = TestData()
