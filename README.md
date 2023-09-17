@@ -7,4 +7,3 @@ The project aims at using state-of-the-art machine learning methods, and in part
 - cs_pos_pmid_set.tsv; curated positive samples, extracted from Cellosaurus, 22719 PMIDs
 - gs_neg_pmid.tsv; curated negative samples, extracted from Google Scholar, 475 PMIDs
 - ls_neg_pmid.tsv; uncurated negative samples, extracted from LitSuggest, 645 PMIDs
-

@@ -1,0 +1,13 @@
+data:
+  raw:
+    cs_pos_pmid: data/raw/cs_pos_pmid.tsv
+    ls_neg_pmid: data/raw/ls_neg_pmid.tsv
+    gs_neg_pmid: data/raw/gs_neg_pmid.tsv
+
+  processed:
+    test_50_50: data/processed/test_50_50.tsv
+    test_80_20: data/processed/test_80_20.tsv
+    train: data/processed/train.tsv
+
+random:
+  seed: 8104
