@@ -1,13 +1,94 @@
+project:
+  dir: /home/paul/CellTriage
+
 data:
-  raw:
-    cs_pos_pmid: data/raw/cs_pos_pmid.tsv
-    ls_neg_pmid: data/raw/ls_neg_pmid.tsv
-    gs_neg_pmid: data/raw/gs_neg_pmid.tsv
+  raw: 
+    pmid:
+      cellosaurus: data/raw/pmid/Cellosaurus.ndjson
+      litsuggest: data/raw/pmid/LitSuggest.ndjson
+      googlescholar: data/raw/pmid/GoogleScholar.ndjson
+      medline: data/raw/pmid/MEDLINE.ndjson
+      cellosaurus_ab : data/raw/pmid/CellosaurusAB.ndjson
+    article: data/raw/article/
 
   processed:
-    test_50_50: data/processed/test_50_50.tsv
-    test_80_20: data/processed/test_80_20.tsv
-    train: data/processed/train.tsv
-
+    pmid:
+      # test: data/processed/pmid/test.ndjson 
+      # train_sVilver: data/processed/pmid/train_silver.ndjson
+      # train_bronze: data/processed/pmid/train_bronze.ndjson
+      # train_silver_ab : data/processed/pmid/train_silver_ab.ndjson
+      train_bronze_ab : data/processed/pmid/train_bronze_ab.ndjson
+      # train_ml_ab : data/processed/pmid/train_ml_ab.ndjson
+    text:
+      # test: data/processed/text/test.ndjson
+      # train_silver: data/processed/text/train_silver.ndjson
+      # train_bronze: data/processed/text/train_bronze.ndjson
+      # train_silver_ab : data/processed/text/train_silver_ab.ndjson
+      train_bronze_ab : data/processed/text/train_bronze_ab.ndjson
+          # train_ml_ab : data/processed/text/train_ml_ab.ndjson
 random:
   seed: 8104
+
+sibils:
+  url: https://sibils.text-analytics.ch/api/
+  batch_size: 500
+  semaphore_size: 4
+  limit_per_host: 2000
+
+model:
+  validation_ratio: 0.2
+  n_epoch: 10
+  batch_size: 8
+  max_token_count: 512
+  warmup_ratio: 0.2
+  labels: [SOURCE]
+  patience: 2
+  threshold: 0.5
+  text_col:
+    abstract: ABSTRACT
+    fulltext: FULLTEXT
+  lm:
+    bert: bert-base-uncased
+    biobert: dmis-lab/biobert-v1.1
+    pmbert: microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext
+    # roberta: xlm-roberta-base
+  checkpoint_dirpath: ./checkpoint
+
+checkpoint:
+  # train_silver:
+  #   abstract:
+  #     bert: checkpoint/train_silver_abstract_bert/best-checkpoint.ckpt
+  #     biobert: checkpoint/train_silver_abstract_biobert/best-checkpoint.ckpt
+  #     pmbert: checkpoint/train_silver_abstract_pmbert/best-checkpoint.ckpt
+  #   fulltext:
+  #     bert: checkpoint/train_silver_fulltext_bert/best-checkpoint.ckpt
+  #     biobert: checkpoint/train_silver_fulltext_biobert/best-checkpoint.ckpt
+  #     pmbert: checkpoint/train_silver_fulltext_pmbert/best-checkpoint.ckpt
+  # train_bronze:
+  #   abstract:
+  #     bert: checkpoint/train_bronze_abstract_bert/best-checkpoint.ckpt
+  #     biobert: checkpoint/train_bronze_abstract_biobert/best-checkpoint.ckpt
+  #     pmbert: checkpoint/train_bronze_abstract_pmbert/best-checkpoint.ckpt
+  #   fulltext:
+  #     bert: checkpoint/train_bronze_fulltext_bert/best-checkpoint.ckpt
+  #     biobert: checkpoint/train_bronze_fulltext_biobert/best-checkpoint.ckpt
+  #     pmbert: checkpoint/train_bronze_fulltext_pmbert/best-checkpoint.ckpt
+    # train_ml_ab:
+    #   fulltext:
+    #     pmbert: checkpoint/train_ml_ab_fulltext_pmbert/best-checkpoint.ckpt
+    train_bronze_ab:
+      fulltext:
+        pmbert: checkpoint/train_bronze_ab_fulltext_pmbert/best-checkpoint.ckpt
+# 
+evaluation:
+  litsuggest_eval:
+    results_fp: data/litsuggest/eval.ndjson
+  model_eval:
+    results_fp: data/model/eval.ndjson
+  celltriage:
+    oneweek: data/celltriage/oneweek.csv
+    oneweek_txt: data/celltriage/oneweek_txt.csv
+    oneweek_0110A: data/celltriage/oneweek_0110A.tsv  # train_silver/ft/pmbert
+    oneweek_0110B: data/celltriage/oneweek_0110B.tsv  # train_bronze/ft/pmbert
+    oneweek_0110C: data/celltriage/oneweek_0110C.tsv  # train_ml_ab/ft/pmbert
+    oneweek_0110D: data/celltriage/oneweek_0110D.tsv  # train_bronze_ab/ft/pmbert

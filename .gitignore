@@ -3,3 +3,15 @@ __pycache__/
 *.pyc
 .vscode/
 outputs
+**/.trash/
+**/__pycache__
+**/.ipynb_checkpoints
+data/raw/article
+data/raw/pmid/MEDLINE.ndjson
+lightning_logs
+checkpoint
+data/celltriage/
+data/processed/
+cfg/.ipynb_checkpoints/main-checkpoint.yaml
+data/litsuggest
+data/model
