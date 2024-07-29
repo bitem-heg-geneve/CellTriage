@@ -138,7 +138,7 @@ systemd-python==234
 terminado==0.17.1
 tinycss2==1.2.1
 tomli==2.0.1
-torch==2.0.1+cu118
+torch==2.2.0
 torchaudio==2.0.2+cu118
 torchvision==0.15.2+cu118
 tornado==6.3.3
