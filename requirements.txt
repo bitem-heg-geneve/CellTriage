@@ -144,7 +144,7 @@ torchvision==0.15.2+cu118
 tornado==6.3.3
 traitlets==5.10.0
 triton==2.0.0
-Twisted==22.1.0
+Twisted==24.3.0
 typing_extensions==4.4.0
 ubuntu-advantage-tools==8001
 ubuntu-drivers-common==0.0.0
